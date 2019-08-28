@@ -1,5 +1,5 @@
 from flask import Flask, escape, request, render_template, url_for
-
+from forms import RegistrationForm, LoginForm
 """
 In terminal, go to flask_blog:
 
@@ -9,6 +9,14 @@ In terminal, go to flask_blog:
 """
 
 app = Flask(__name__)
+
+# Set Secret Keys:
+"""
+>>> import secrets
+>>> secrets.token_hex(16)
+'b68fa0df2acd5d395596950f0d00c951'
+"""
+app.config("SECRET_KEY") = 'b68fa0df2acd5d395596950f0d00c951'
 
 posts = [
     {
@@ -46,6 +54,20 @@ def about():
 
 # The below will allow to make changes to the browser without having to kill the session everytime
 # there is an update. To run: instead of "flask run" we will use "python flaskblog.py"
+
+# Create Register Route
+
+
+@app.route('/register')
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/register')
+def register():
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
 
 
 if __name__ == '__main__':

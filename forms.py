@@ -39,4 +39,15 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password',
                              validators=[DataRequired()])
 
-    submit = SubmitField('Sign Up')
+    # Remember me
+    remember = BooleanField("Remember Me")
+    submit = SubmitField('Login')
+
+
+"""
+NOTE: When we use these 2 forms we need to set a secret keys for our application.
+The secret keys will protect us from modifying cookies, cross site request,
+forgery attacks.
+
+We will set this key inside the flaskblog.py
+"""
