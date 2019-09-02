@@ -26,7 +26,7 @@ class RegistrationForm(FlaskForm):
 
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(),
-                                                 EqualTo('Password')])
+                                                 EqualTo('password')]) # pw is the var name
     submit = SubmitField('Sign Up')
 
 

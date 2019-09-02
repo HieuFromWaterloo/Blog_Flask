@@ -1,4 +1,4 @@
-from flask import Flask, escape, request, render_template, url_for
+from flask import Flask, escape, request, render_template, url_for, redirect, flash
 from forms import RegistrationForm, LoginForm
 """
 In terminal, go to flask_blog:
@@ -16,7 +16,7 @@ app = Flask(__name__)
 >>> secrets.token_hex(16)
 'b68fa0df2acd5d395596950f0d00c951'
 """
-app.config("SECRET_KEY") = 'b68fa0df2acd5d395596950f0d00c951'
+app.config["SECRET_KEY"] = 'b68fa0df2acd5d395596950f0d00c951'
 
 posts = [
     {
@@ -58,15 +58,29 @@ def about():
 # Create Register Route
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+    # Need to validate the forms before submitting
+    if form.validate_on_submit():  # if the form is validated
+        # send a message in flask, with the 2nd arg as the format of the message "success"
+        flash(f"Account created for {form.username.data}!", "success")
+        # after the form has been validated, we redirect the user to the home page
+        return redirect(url_for('home'))
+        # NOTE: we need to update the template the show the flash message
+        # Go to layout.html to update this
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/register')
-def register():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 

@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div class='content-section'>
-        <form method='POST, action=''>
+        <form method='POST', action=''>
             <!-- Accessing variable within a form -->
             {{ form.hidden_tag() }} <!-- part of add-in protection -->
             <fieldset class='form-group'>
@@ -10,27 +10,78 @@
 
                 <!-- CREATE FIELDS FOLLOWING REGISTER TEMPLATES -->
                 <div class='form-group'>
-                    <!-- Do some boostrap stuffs -->
                     {{ form.username.label(class='form-control-label') }}
-                    {{ form.username(class='form-control form-control-lg') }}
+                    <!--
+                        - Do some boostrap stuffs
+                        - Check for errors/invalid in the fiedls
+                    -->
+                    {% if form.username.errors %}
+                        {{ form.username(class='form-control form-control-lg is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class='form-control form-control-lg') }}
+                    {% endif %}
                 </div>
 
                 <div class='form-group'>
                     <!-- Do some boostrap stuffs -->
-                    {{ form.email .label(class='form-control-label') }}
-                    {{ form.email (class='form-control form-control-lg') }}
+                    {{ form.email.label(class='form-control-label') }}
+                    <!--
+                        - Do some boostrap stuffs
+                        - Check for errors/invalid in the fiedls
+                    -->
+                    {% if form.email.errors %}
+                        {{ form.email(class='form-control form-control-lg is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class='form-control form-control-lg') }}
+                    {% endif %}
                 </div>
 
                 <div class='form-group'>
                     <!-- Do some boostrap stuffs -->
-                    {{ form.password .label(class='form-control-label') }}
-                    {{ form.password (class='form-control form-control-lg') }}
+                    {{ form.password.label(class='form-control-label') }}
+                    <!--
+                        - Do some boostrap stuffs
+                        - Check for errors/invalid in the fiedls
+                    -->
+                    {% if form.password.errors %}
+                        {{ form.password(class='form-control form-control-lg is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class='form-control form-control-lg') }}
+                    {% endif %}
                 </div>
 
                 <div class='form-group'>
                     <!-- Do some boostrap stuffs -->
-                    {{ form.confirm_password .label(class='form-control-label') }}
-                    {{ form.confirm_password (class='form-control form-control-lg') }}
+                    {{ form.confirm_password.label(class='form-control-label') }}
+                    <!--
+                        - Do some boostrap stuffs
+                        - Check for errors/invalid in the fiedls
+                    -->
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class='form-control form-control-lg is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class='form-control form-control-lg') }}
+                    {% endif %}
                 </div>
             </fieldset>
             <!-- Now Done with Fields, we need to create a submit button "btn" -->
@@ -41,11 +92,12 @@
         </form>
     </div>
     <!-- If user already have an account, then just sign in WITHOUT create new accoint -->
-    <div class='border-top pt-3'>
+    <div class='border-top pt-2'>
         <!-- small fade-out text AND linked to the sign-in page -->
+        <!-- NOTE: we passed in "login" as a the NAME of the FUNCTION,
+            NOT the name of the route-->
         <small class='text-mute'>
-            Already Have An Account? <a class='ml2' href=''></a>
-
+            Already Have An Account? <a class='ml2' href='{{ url_for("login") }}'>Sign In</a>
         </small>
     </div>
 {% endblock content %}
